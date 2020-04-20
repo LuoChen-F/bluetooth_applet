@@ -1,0 +1,45 @@
+<!--
+<view id='video-box'>  
+    <live-pusher
+          id="pusher"
+          mode="RTC"
+          url=https://domain/push_stream"
+          autopush='true'
+          bindstatechange="statechange">
+    </live-pusher>  
+ </view> 
+ https://domain/push_stream
+ rtmp://www.kucarlife.com:1935/hls/test
+ rtmp://49453.livepush.myqcloud.com/live/f03cc86531?bizid=49453&txSecret=f4a71a627d107d6e5dac2788b27ad90b&txTime=5CD44E7F
+-->
+
+
+
+<view class="page-body">
+ <view style="font-size:18px;text-align:center;font-bold:weight;">书桌{{options.CUR_DEV_STRID}}视频通话</view>
+  <view class="page-section tc">
+  <live-player
+  id="player"
+  src="rtmp://www.kucarlife.com:1935/hls/S{{options.CUR_DEV_STRID}}"
+  mode="RTC"
+  autoplay='true'
+  bindstatechange="statechangePlay"
+  binderror="error"/>
+
+ <live-pusher id="pusher" url="rtmp://www.kucarlife.com:1935/hls/r{{options.CUR_DEV_STRID}}" mode="RTC" autopush bindstatechange="statechange" /> 
+  </view>  
+    <view class="btn-area" style="margin-top:20px;">
+      <button bindtap="{{bindtapVal}}" class="page-body-button" type="primary">{{StartbtnText}}</button>
+	  
+	  <!--
+      <button bindtap="bindPause" class="page-body-button" type="primary">暂停推流</button>
+      <button bindtap="bindStop" class="page-body-button" type="primary">停止推流</button>
+      <button bindtap="bindResume" class="page-body-button" type="primary">恢复推流</button>
+	  -->
+      <button bindtap="{{CarmbindtapVal}}" class="page-body-button" type="primary">{{CarmbtnText}}</button>
+      <!--
+      <button bindtap="CloseVideo" class="page-body-button" type="primary">CLOSE</button>
+      <view>CUR_DEV_STRID  {{options.CUR_DEV_STRID}}</view>
+      -->
+  </view>
+</view>

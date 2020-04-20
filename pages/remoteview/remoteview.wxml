@@ -1,0 +1,15 @@
+<view class="page-body">
+  <view style="font-size:18px;text-align:center;font-bold:weight;">书桌{{options.CUR_DEV_STRID}}实时视频</view>
+  <view class="page-section tc">
+    <live-player id="player" src="rtmp://www.kucarlife.com:1935/hls/S{{options.CUR_DEV_STRID}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" />
+
+    <view class="btn-area">
+      <button bindtap="{{bindtapVal}}" class="page-body-button" type="primary">{{StartbtnText}}</button>
+     <!-- <button bindtap="bindPause" class="page-body-button" type="primary">暂停</button>
+      <button bindtap="bindStop" class="page-body-button" type="primary">停止</button>
+      <button bindtap="bindResume" class="page-body-button" type="primary">恢复</button>
+	  -->
+      <button bindtap="{{mutxbindtapVal}}" class="page-body-button" type="primary">{{mutxbtnText}}</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,49 @@
+<!--
+<view id='video-box'>  
+    <live-pusher
+          id="pusher"
+          mode="RTC"
+          url=https://domain/push_stream"
+          autopush='true'
+          bindstatechange="statechange">
+    </live-pusher>  
+ </view> 
+ https://domain/push_stream
+ rtmp://www.kucarlife.com:1935/hls/test
+ rtmp://49453.livepush.myqcloud.com/live/f03cc86531?bizid=49453&txSecret=f4a71a627d107d6e5dac2788b27ad90b&txTime=5CD44E7F
+-->
+
+
+
+
+<!--
+
+<view class="page-body">
+  <view class="page-section tc">
+    <live-pusher id="pusher" url="rtmp://www.kucarlife.com:1935/hls/111" mode="RTC" autopush bindstatechange="statechange" />
+    <view class="btn-area">
+      <button bindtap="bindStart" class="page-body-button" type="primary">播放推流</button>
+      <button bindtap="bindPause" class="page-body-button" type="primary">暂停推流</button>
+      <button bindtap="bindStop" class="page-body-button" type="primary">停止推流</button>
+      <button bindtap="bindResume" class="page-body-button" type="primary">恢复推流</button>
+      <button bindtap="bindSwitchCamera" class="page-body-button" type="primary">切换前后摄像头</button>
+    </view>
+  </view>
+</view>
+
+<live-player
+  src="rtmp://123.56.140.149:1935/hls/test"
+  mode="RTC"
+  autoplay
+  bindstatechange="statechange"
+  binderror="error"
+  style="width: 300px; height: 225px;"
+/>
+
+{{url}}?id={{id}}&token={{token}}&member={{member}}&paused={{paused}}
+
+<view>DEV_ID {{options.DEV_ID}}  rtmpclose {{options.rtmpclose}}</view>
+<web-view src="https://www.kucarlife.com/SMKWEBAPP/login.php?rtmpclose={{rtmpclose}}&DEV_ID={{DEV_ID}}"></web-view>
+-->
+
+<web-view src="https://www.kucarlife.com/SchBusWebPage/login.php"></web-view>

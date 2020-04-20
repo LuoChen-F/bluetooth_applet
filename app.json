@@ -1,0 +1,17 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/bluetooth/bluetooth",
+    "pages/live_video/live_video",
+     "pages/remoteview/remoteview",
+	   "pages/voice/voice"
+  ],
+  "window":{
+   "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

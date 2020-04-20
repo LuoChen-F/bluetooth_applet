@@ -1,0 +1,11 @@
+<view class="connect_box">
+    <text wx:if="{{connect}}" class="connect_state" catchtap="DisConnectTap">已连接</text>
+    <text wx:else class="connect_state">未连接</text>
+</view>
+<view wx:if="{{connect}}" class="car_box">
+  <view>当前车辆已正常点火：{{car_num}}</view>
+  <view>驾驶员：{{car_user}}</view>
+</view>
+
+<text class="code_text" wx:if="{{sendCode}}">指令发送成功</text>
+<view class="back_btn" catchtap="BackTap">返回上一页</view>
