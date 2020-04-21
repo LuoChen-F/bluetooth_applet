@@ -275,12 +275,13 @@ Page({
     /*** 生命周期函数--监听页面卸载  */
     onUnload: function () {
         var that = this;
+        /*
         wx.closeBLEConnection({
             deviceId: that.data.deviceId,
             success: function (res) {
                 console.log('断开设备连接', res);
             }
-        });
+        });*/
     },
     /* 清除Recv Bytes */
     CleanNumberRecv: function () {
