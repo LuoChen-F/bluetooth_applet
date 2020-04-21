@@ -308,7 +308,7 @@ Page({
             value: buffer,
             success: function (res) {
                 console.log('数据发送成功', res);
-                this.setData({
+                that.setData({
                     sendCode: true
                 })
                 console.log(buffer);
