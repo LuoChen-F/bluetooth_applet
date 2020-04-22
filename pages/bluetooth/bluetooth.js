@@ -33,8 +33,7 @@ Page({
             deviceMId: options.id,  //mac地址android使用
             deviceName: options.name,
             car_num: options.car_num,
-            car_user: options.car_user,
-            deviceUId:options.uid  //设备uuid ios使用
+            car_user: options.car_user
         });
 
         var that = this;
@@ -48,57 +47,65 @@ Page({
                 });
               }else if(res.platform == "ios"){
                 that.setData({
-                    phoneType: 0,
-                    deviceId:that.data.deviceUId
+                    phoneType: 0
                 });
               }
             }
           });
-
-          
-          console.log("phoneType:"+this.data.phoneType)
-          console.log("deviceId:"+this.data.deviceId)
+        console.log("phoneType:"+this.data.phoneType);
+        console.log("car_num:"+this.data.car_num);
       
         wx.openBluetoothAdapter({
 				success: function (res) {
 					console.log("初始化蓝牙适配器成功")
 					console.log(res)
-					
-					/*
-					wx.startBluetoothDevicesDiscovery({
+                    
+                    if(that.data.phoneType==0){
+                        //ios设备，需要搜索蓝牙，根据蓝牙名称获取设备uuid
+                        wx.startBluetoothDevicesDiscovery({
+                        //		services: params.services,
+                                success: function (res) {
+                                    console.log(res)
+                                    console.log("开启搜索成功")
+                                    wx.getBluetoothDevices({
+                                        success: function (res) {
+                                            console.log("getBluetoothDevices");
+                                            console.log(res.devices);
+                                            for(let i=0;i<res.devices.length;i++){
+                                                if(res.devices[i]['localName']==that.data.car_num){
+                                                    that.setData({
+                                                        deviceId:res.devices[i]['deviceId']
+                                                    });
+                                                }
+                                            }
+                                            //连接蓝牙
+                                            that.connectBlue();
+                                        },
+                                        fail: function (res) {
+                                            console.log("没有搜索到要链接的设备....")
+                                            console.log(res)
+                                            return
+                                        }
+                                    })
+    
+                                }, 
+                                fail: function (res) {
+                                    console.log("开启搜索失败")
+                                    console.log(res)
+                                    //params.onFailCallBack(res)
+                                    return
+                                },
+                                complete: function (res) {
+                                    // complete
+                                    console.log(res);
+                                }
+                        })
 
-					//		services: params.services,
-							success: function (res) {
-							console.log(res)
-							console.log("开启搜索成功")
-						 	wx.getBluetoothDevices({
-								success: function (res) {
-								console.log("getBluetoothDevices");
-                                console.log(res.devices);
-								},
-								fail: function (res) {
-								
-								console.log("没有搜索到要链接的设备....")
-								console.log(res)
-							
-								return
-								}
-								})
-
-							}, 
-							fail: function (res) {
-								console.log("开启搜索失败")
-								console.log(res)
-								//params.onFailCallBack(res)
-								return
-							},
-							complete: function (res) {
-								// complete
-								console.log(res);
-							}
-							})
-							*/
-							
+                    }else{
+                        //android设备，直接连接蓝牙，无需搜索
+                        that.connectBlue();
+                    }
+						
 				}, 
 				fail: function (res) {
 					console.log("初始化蓝牙适配器失败")
@@ -110,18 +117,14 @@ Page({
 				console.log(res);
 				}
 				})
-		
+        
+                
+        
         
         
     },
-    /*** 生命周期函数--监听页面显示 */
-    onShow: function () {
-        wx.stopBluetoothDevicesDiscovery({
-            success: function (res) {
-                console.log('停止搜索设备')
-                console.log( res)
-            }
-        })
+    //蓝牙连接
+    connectBlue:function(){
         var that = this;
         /* 连接中动画 */
         wx.showLoading({
@@ -139,7 +142,7 @@ Page({
                     deviceId: that.data.deviceId,
                     success: function (service) {
                         that.setData({
-                             serviceId: "0000FFE0-0000-1000-8000-00805F9B34FB" //确定需要的服务UUID
+                            serviceId: "0000FFE0-0000-1000-8000-00805F9B34FB" //确定需要的服务UUID
                         });
                         console.log('需要的服务UUID', that.data.serviceId)
                         that.Characteristics(); //调用获取特征值函数
@@ -150,15 +153,25 @@ Page({
                 })
             },
             fail: function (res) {
-					console.log("连接失败")
+                    console.log("连接失败")
                     console.log(res);
                     console.log(that.data.deviceId);
                     setTimeout(function(){
-                          wx.hideLoading();
+                        wx.hideLoading();
                         },60000)
-					return
-				},
+                    return
+                },
         })
+    },
+    /*** 生命周期函数--监听页面显示 */
+    onShow: function () {
+        wx.stopBluetoothDevicesDiscovery({
+            success: function (res) {
+                console.log('停止搜索设备')
+                console.log( res)
+            }
+        })
+        
     },
     Characteristics: function () {
         var that = this;
