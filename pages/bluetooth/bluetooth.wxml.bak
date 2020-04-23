@@ -14,5 +14,5 @@
 </view>
 
 <text class="code_text" wx:if="{{sendCode}}">指令发送成功</text>
-<view class="back_btn" catchtap="ReSearch">重新搜索</view>
+<view class="back_btn" catchtap="BackTap">重新搜索</view>
 <view class="back_btn" catchtap="BackTap">返回上一页</view>

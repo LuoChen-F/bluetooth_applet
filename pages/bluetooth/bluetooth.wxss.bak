@@ -94,7 +94,6 @@
   background-color: #32BB5C;
   width: 100%;
   height:2rem;
-  line-height:2rem;
   color:white;
   padding:0px 10px;
   text-align: center;

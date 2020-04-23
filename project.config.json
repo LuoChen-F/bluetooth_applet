@@ -55,6 +55,13 @@
 					"pathName": "pages/bluetooth/bluetooth",
 					"query": "name=BT05&id=00:15:87:00:85:56&car_num=HC200319010&car_user=驾驶员&uid=45D2B79E-500E-C8D2-ED17-F251BEC1683F",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "name=BT05&id=00:15:87:00:85:56&car_num=HC200319010&car_user=驾驶员&uid=45D2B79E-500E-C8D2-ED17-F251BEC1683F",
+					"scene": null
 				}
 			]
 		}
