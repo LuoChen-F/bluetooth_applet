@@ -1,0 +1,17 @@
+.page-body-button {
+  margin-bottom: 30rpx;
+  width: 45vm;
+}
+
+live-player {
+  margin-top:40px;
+  width:100vw;
+  height:225px;
+}
+
+live-pusher {
+  margin-top:-95px;
+  float:right;
+  width: 100px;
+  height:85px;
+}

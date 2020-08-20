@@ -16,11 +16,11 @@ Page({
         wendu: 30,
         yanwu: 60,
         car_num: '',
-        car_user: '',
+        car_user:'',
         phoneType: 0, //0ios手机；1android,
-        sendCode: false
+        sendCode:false
     },
-
+ 
     /*** 生命周期函数--监听页面加载 */
     onLoad: function (options) {
         wx.stopBluetoothDevicesDiscovery({
@@ -39,150 +39,155 @@ Page({
         var that = this;
         //判断手机机型
         wx.getSystemInfo({
-            success: function (res) {
-                if (res.platform == "android") {
-                    that.setData({
-                        phoneType: 1,
-                        deviceId: that.data.deviceMId
-                    });
-                } else if (res.platform == "ios") {
-                    that.setData({
-                        phoneType: 0
-                    });
-                }
-            }
-        });
-        console.log("phoneType:" + this.data.phoneType);
-        console.log("car_num:" + this.data.car_num);
-
-        wx.openBluetoothAdapter({
-            success: function (res) {
-                console.log("初始化蓝牙适配器成功")
-                console.log(res)
-
-                if (that.data.phoneType == 0) {
-
-
-
-
-                    //ios设备，需要搜索蓝牙，根据蓝牙名称获取设备uuid
-                    wx.startBluetoothDevicesDiscovery({
-                        //		services: params.services,
-                        success: function (res) {
-                            console.log(res)
-                            console.log("开启搜索成功")
-                            that.setData({
-                                info: '正在搜索蓝牙设备.....'
-                            })
-                            for (let idx = 0; idx < 1; idx++) {
-                                wx.getBluetoothDevices({
-                                    success: function (res) {
-                                        console.log("getBluetoothDevices");
-                                        console.log(res.devices);
-                                        for (let i = 0; i < res.devices.length; i++) {
-                                            if (res.devices[i]['localName'] == that.data.car_num) {
-                                                that.setData({
-                                                    deviceId: res.devices[i]['deviceId']
-                                                });
-                                                //停止搜索蓝牙
-                                                wx.stopBluetoothDevicesDiscovery({
-                                                    success: function (res) {
-                                                        console.log('停止搜索设备')
-                                                        // console.log( res)
-                                                    }
-                                                })
-
-                                                that.connectBlue();
-
-                                                return;
-                                            }
-                                        }
-                                        //连接蓝牙
-                                        that.setData({
-                                            info: '信息:没有搜索到叉车设备,正在重连...'
-                                        })
-
-                                        //启动定时器-1秒以后重连
-                                        setTimeout(function () {
-                                            that.ReSearch();
-                                        }, 2000);
-                                    },
-                                    fail: function (res) {
-
-                                        that.setData({
-                                            info: '信息:没有搜索到叉车设备!!'
-                                        })
-                                        console.log("没有搜索到要链接的设备....")
-                                        console.log(res)
-                                        return
-                                    }
-                                })
-
-
-                            }
-
-                        },
-                        fail: function (res) {
-                            that.setData({
-                                info: '错误:开启蓝牙搜索失败!!'
-                            })
-                            console.log("开启搜索失败")
-                            console.log(res)
-                            //params.onFailCallBack(res)
-                            return
-                        },
-                        complete: function (res) {
-                            // complete
-                            console.log(res);
-                        }
-                    })
-
-
-
-
-                } else {
-                    //android设备，直接连接蓝牙，无需搜索
-                    that.connectBlue();
-                }
-
-            },
-            fail: function (res) {
-                console.log("初始化蓝牙适配器失败")
+            success:function(res){
+              if(res.platform == "android"){
                 that.setData({
-                    info: '错误:请打开蓝牙和定位功能!!'
-                })
-                //params.onFailCallBack(res.errMsg)
-                console.log(res);
-                return
-            },
-            complete: function (res) {
-
-                console.log(res);
+                    phoneType: 1,
+                    deviceId:that.data.deviceMId
+                });
+              }else if(res.platform == "ios"){
+                that.setData({
+                    phoneType: 0
+                });
+              }
             }
-        })
+          });
+        console.log("phoneType:"+this.data.phoneType);
+        console.log("car_num:"+this.data.car_num);
+      
+        wx.openBluetoothAdapter({
+				success: function (res) {
+					console.log("初始化蓝牙适配器成功")
+					console.log(res)
+                    
+                    if(that.data.phoneType==0){
+                    	
+                    	
+                    
+                    	
+                        //ios设备，需要搜索蓝牙，根据蓝牙名称获取设备uuid
+                        wx.startBluetoothDevicesDiscovery({
+                        //		services: params.services,
+                                success: function (res) 
+                                {
+                                    console.log(res)
+                                    console.log("开启搜索成功")
+	                                    that.setData({
+																							 info: '正在搜索蓝牙设备.....'
+																			 })
+																 			for(let idx=0;idx<1;idx++)
+                     									{	
+                     	  								 wx.getBluetoothDevices({
+	                                        success: function (res) 
+	                                        {
+	                                            console.log("getBluetoothDevices");
+	                                            console.log(res.devices);
+	                                            for(let i=0;i<res.devices.length;i++)
+	                                            {
+	                                                if(res.devices[i]['localName']==that.data.car_num){
+	                                                    that.setData({
+	                                                        deviceId:res.devices[i]['deviceId']
+	                                                    });
+	                                                    //停止搜索蓝牙
+																							         wx.stopBluetoothDevicesDiscovery({
+																												   success: function (res) {
+																												   console.log('停止搜索设备')
+																													// console.log( res)
+																												 }
+																										 })
+	                                                   
+	                                                    that.connectBlue();
+	                                                 
+	                                                    return;
+	                                                }
+	                                            }
+	                                            //连接蓝牙
+	                                            that.setData({
+																									          info: '信息:没有搜索到叉车设备,正在重连...'
+																							 })
+																							 
+																							  //启动定时器-1秒以后重连
+																							 setTimeout(function() {
+																								         that.ReSearch();
+																								      }, 2000);
+	                                        },
+	                                        fail: function (res) {
+	                                        	
+																							            that.setData({
+																									          info: '信息:没有搜索到叉车设备!!'
+																									         })
+	                                            console.log("没有搜索到要链接的设备....")
+	                                            console.log(res)
+	                                            return
+	                                        }
+	                                    })
+                     	 								
+                        
+                    						 			}			
+    
+                                }, 
+                                fail: function (res) {
+                                	 that.setData({
+														          info: '错误:开启蓝牙搜索失败!!'
+														         })
+                                    console.log("开启搜索失败")
+                                    console.log(res)
+                                    //params.onFailCallBack(res)
+                                    return
+                                },
+                                complete: function (res) {
+                                    // complete
+                                    console.log(res);
+                                }
+                        })
+                        
+                        
+												
 
-
-
-
-
+                    }else{
+                        //android设备，直接连接蓝牙，无需搜索
+                        that.connectBlue();
+                    }
+						
+				}, 
+				fail: function (res) {
+					console.log("初始化蓝牙适配器失败")
+				  that.setData({
+          info: '错误:请打开蓝牙和定位功能!!'
+         })
+				 //params.onFailCallBack(res.errMsg)
+					console.log(res);
+					return
+				},
+				complete: function (res) {
+			
+				console.log(res);
+				}
+				})
+        
+                
+        
+        
+        
     },
     //蓝牙连接
-    connectBlue: function () {
+    connectBlue:function(){
         var that = this;
         /* 连接中动画 */
         wx.showLoading({
             title: '连接中...',
         });
+        console.log( that.data.deviceId);
         /* 开始连接蓝牙设备 */
         wx.createBLEConnection({
             deviceId: that.data.deviceId,
             success: function (res) {
                 console.log('连接成功', res);
                 wx.hideLoading();
-
-                that.setData({
-                    info: '连接成功!!'
-                })
+                
+                 that.setData({
+														          info: '连接成功!!'
+								 })
 
                 /* 获取设备的服务UUID */
                 wx.getBLEDeviceServices({
@@ -200,23 +205,39 @@ Page({
                 })
             },
             fail: function (res) {
-                that.setData({
-                    info: '错误:连接失败!!'
-                })
-                console.log("连接失败")
-                console.log(res);
-                console.log(that.data.deviceId);
-                setTimeout(function () {
-                    wx.hideLoading();
-                }, 60000)
-                return
-            },
+
+                   wx.hideLoading();
+                   console.log(res.errCode);      
+                    if(res.errCode==-1)  //已经连接
+                    {
+                        that.setData({
+                            connect: true
+                        })
+                            that.setData({
+                                info: '信息:手机已经连接蓝牙终端'
+                        })
+                    }
+                    else{
+                                that.setData({
+                                    info: '错误:连接失败!!'
+                        })
+                    }
+            	     
+                    console.log("连接失败")
+                    console.log(res);
+                    console.log(that.data.deviceId);
+                   
+                    //setTimeout(function(){
+                    //    wx.hideLoading();
+                    //    },10000)
+                    return
+                },
         })
     },
     /*** 生命周期函数--监听页面显示 */
     onShow: function () {
-
-
+       
+        
     },
     Characteristics: function () {
         var that = this;
@@ -326,158 +347,162 @@ Page({
         */
     },
     //重新搜索
-    ReSearch: function () {
-        this.DisConnectTap();
-        wx.stopBluetoothDevicesDiscovery({
+     ReSearch:function(){
+     	    this.DisConnectTap();
+          wx.stopBluetoothDevicesDiscovery({
             success: function (res) {
                 console.log('停止搜索设备', res)
             }
         })
-
+       
         var that = this;
         //判断手机机型
         wx.getSystemInfo({
-            success: function (res) {
-                if (res.platform == "android") {
-                    that.setData({
-                        phoneType: 1,
-                        deviceId: that.data.deviceMId
-                    });
-                } else if (res.platform == "ios") {
-                    that.setData({
-                        phoneType: 0
-                    });
-                }
-            }
-        });
-        console.log("phoneType:" + this.data.phoneType);
-        console.log("car_num:" + this.data.car_num);
-
-        wx.openBluetoothAdapter({
-            success: function (res) {
-                console.log("初始化蓝牙适配器成功")
-                console.log(res)
-
-                if (that.data.phoneType == 0) {
-
-
-
-
-                    //ios设备，需要搜索蓝牙，根据蓝牙名称获取设备uuid
-                    wx.startBluetoothDevicesDiscovery({
-                        //		services: params.services,
-                        success: function (res) {
-
-                            that.setData({
-                                info: '正在搜索蓝牙设备.....'
-                            })
-                            for (let idx = 0; idx < 1; idx++) {
-                                wx.getBluetoothDevices({
-                                    success: function (res) {
-                                        console.log("getBluetoothDevices");
-                                        console.log(res.devices);
-                                        for (let i = 0; i < res.devices.length; i++) {
-                                            if (res.devices[i]['localName'] == that.data.car_num) {
-                                                that.setData({
-                                                    deviceId: res.devices[i]['deviceId']
-                                                });
-                                                //停止搜索蓝牙
-                                                wx.stopBluetoothDevicesDiscovery({
-                                                    success: function (res) {
-                                                        console.log('停止搜索设备')
-                                                        console.log(res)
-                                                    }
-                                                })
-
-                                                that.connectBlue();
-
-
-                                                return;
-                                            }
-                                        }
-                                        //连接蓝牙
-                                        that.setData({
-                                            info: '信息:没有搜索到叉车设备!!'
-                                        })
-
-
-
-
-                                    },
-                                    fail: function (res) {
-
-                                        that.setData({
-                                            info: '信息:没有搜索到叉车设备!!'
-                                        })
-                                        console.log("没有搜索到要链接的设备....")
-                                        //    console.log(res)
-                                        return
-                                    }
-                                })
-
-
-                            }
-
-                        },
-                        fail: function (res) {
-                            that.setData({
-                                info: '错误:开启蓝牙搜索失败!!'
-                            })
-                            // console.log("开启搜索失败")
-                            // console.log(res)
-                            //params.onFailCallBack(res)
-                            return
-                        },
-                        complete: function (res) {
-                            // complete
-                            //  console.log(res);
-                        }
-                    })
-
-
-
-
-                } else {
-                    //android设备，直接连接蓝牙，无需搜索
-                    that.connectBlue();
-                }
-
-            },
-            fail: function (res) {
-                console.log("初始化蓝牙适配器失败")
+            success:function(res){
+              if(res.platform == "android"){
                 that.setData({
-                    info: '错误:请打开蓝牙和定位功能!!'
-                })
-                //params.onFailCallBack(res.errMsg)
-                console.log(res);
-                return
-            },
-            complete: function (res) {
-
-                console.log(res);
+                    phoneType: 1,
+                    deviceId:that.data.deviceMId
+                });
+              }else if(res.platform == "ios"){
+                that.setData({
+                    phoneType: 0
+                });
+              }
             }
-        })
+          });
+        console.log("phoneType:"+this.data.phoneType);
+        console.log("car_num:"+this.data.car_num);
+      
+        wx.openBluetoothAdapter({
+				success: function (res) {
+					console.log("初始化蓝牙适配器成功")
+					console.log(res)
+                    
+                    if(that.data.phoneType==0){
+                    	
+                    	
+                    
+                    	
+                        //ios设备，需要搜索蓝牙，根据蓝牙名称获取设备uuid
+                        wx.startBluetoothDevicesDiscovery({
+                        //		services: params.services,
+                                success: function (res) 
+                                {
+                                   
+	                                    that.setData({
+																							 info: '正在搜索蓝牙设备.....'
+																			 })
+																 			for(let idx=0;idx<1;idx++)
+                     									{	
+                     	  								 wx.getBluetoothDevices({
+	                                        success: function (res) 
+	                                        {
+	                                            console.log("getBluetoothDevices");
+	                                            console.log(res.devices);
+	                                            for(let i=0;i<res.devices.length;i++)
+	                                            {
+	                                                if(res.devices[i]['localName']==that.data.car_num){
+	                                                    that.setData({
+	                                                        deviceId:res.devices[i]['deviceId']
+	                                                    });
+	                                                    //停止搜索蓝牙
+																							         wx.stopBluetoothDevicesDiscovery({
+																												   success: function (res) {
+																												   console.log('停止搜索设备')
+																													 console.log( res)
+																												 }
+																										 })
+	                                                   
+	                                                    that.connectBlue();
+	                                                
+	                                                    
+	                                                    return;
+	                                                }
+	                                            }
+	                                            //连接蓝牙
+	                                            that.setData({
+																									          info: '信息:没有搜索到叉车设备!!'
+																							 })
+																							 
+																							
+																							 
+																							 
+	                                        },
+	                                        fail: function (res) {
+	                                        	
+																							            that.setData({
+																									          info: '信息:没有搜索到叉车设备!!'
+																									         })
+	                                            console.log("没有搜索到要链接的设备....")
+	                                        //    console.log(res)
+	                                            return
+	                                        }
+	                                    })
+                     	 								
+                        
+                    						 			}			
+    
+                                }, 
+                                fail: function (res) {
+                                	 that.setData({
+														          info: '错误:开启蓝牙搜索失败!!'
+														         })
+                                   // console.log("开启搜索失败")
+                                   // console.log(res)
+                                    //params.onFailCallBack(res)
+                                    return
+                                },
+                                complete: function (res) {
+                                    // complete
+                                  //  console.log(res);
+                                }
+                        })
+                        
+                        
+												
 
+                    }else{
+                        //android设备，直接连接蓝牙，无需搜索
+                        that.connectBlue();
+                    }
+						
+				}, 
+				fail: function (res) {
+					console.log("初始化蓝牙适配器失败")
+				  that.setData({
+          info: '错误:请打开蓝牙和定位功能!!'
+         })
+				 //params.onFailCallBack(res.errMsg)
+					console.log(res);
+					return
+				},
+				complete: function (res) {
+			
+				console.log(res);
+				}
+				})
+      
     },
-
+    
     //返回上一页
-    BackTap: function () {
+    BackTap:function(){
         console.log('返回上一页');
         wx.reLaunch({
-            url: '../index/index',
+             url: '../returnpage/returnpage',
         })
     },
-
+   
     /*** 生命周期函数--监听页面卸载  */
     onUnload: function () {
         var that = this;
-        //停止搜索蓝牙
-        wx.stopBluetoothDevicesDiscovery({
-            success: function (res) {
-                console.log('停止搜索设备')
-                console.log(res)
-            }
-        })
+         //停止搜索蓝牙
+          wx.stopBluetoothDevicesDiscovery({
+					   success: function (res) {
+					   console.log('停止搜索设备')
+						 console.log( res)
+					 }
+			 })
         /*
         wx.closeBLEConnection({
             deviceId: that.data.deviceId,
@@ -492,7 +517,7 @@ Page({
             recv_number: 0
         })
     },
-    strByte: function (str) {
+    strByte:function(str){
         var array = new Uint8Array(str.length);
         for (var i = 0, l = str.length; i < l; i++) {
             array[i] = str.charCodeAt(i);
@@ -500,7 +525,7 @@ Page({
         console.log(array);
         return array.buffer;
     },
-    sendMsg: function () {
+    sendMsg:function(){
         var that = this;
         let buffer = that.strByte("ATPON");
 
@@ -619,7 +644,7 @@ Page({
             return;
         }
         this.setData({
-            [id]: +this.data[id] + 1
+　　　　　　[id]: +this.data[id] + 1
         });
         this.numbers(id)
     },
@@ -634,7 +659,7 @@ Page({
             return;
         }
         this.setData({
-            [id]: +this.data[id] - 1
+　　　　　　　[id]: +this.data[id] - 1
         });
         this.numbers(id)
     },
@@ -649,7 +674,7 @@ Page({
             return;
         }
         this.setData({
-            [id]: e.detail.value
+　　　　　　[id]: e.detail.value
         });
         this.numbers(id)
     },

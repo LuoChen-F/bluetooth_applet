@@ -4,6 +4,7 @@
     "pages/bluetooth/bluetooth",
     "pages/live_video/live_video",
      "pages/remoteview/remoteview",
+     "pages/returnpage/returnpage",
 	   "pages/voice/voice"
   ],
   "window":{
